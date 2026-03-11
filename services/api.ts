@@ -17,3 +17,8 @@ export const createCampaign = async (data: any) => {
   const res = await api.post("/campaigns", data);
   return res.data;
 };
+
+export const getStats = async () => {
+  const res = await api.get("/stats");
+  return res.data;
+};
