@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { getStats } from "@/services/api";
 
@@ -9,6 +8,13 @@ interface Stats {
   totalImpressions: number;
   topAdvertiser: string;
 }
+
+const cards = (stats: Stats) => [
+  { label: "Total Campaigns", value: stats.totalCampaigns },
+  { label: "Active Campaigns", value: stats.activeCampaigns },
+  { label: "Total Impressions", value: stats.totalImpressions },
+  { label: "Top Advertiser", value: stats.topAdvertiser },
+];
 
 export default function Dashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
@@ -22,31 +28,34 @@ export default function Dashboard() {
         console.error("Failed to fetch stats", error);
       }
     };
-
     fetchStats();
   }, []);
 
-  if (!stats) return <p className="p-10">Loading...</p>;
+  if (!stats)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-400 text-sm animate-pulse">Loading...</p>
+      </div>
+    );
 
   return (
-    <div className="p-10 min-h-screen">
-      <h1 className="text-2xl font-bold text-primary mb-6">Dashboard</h1>
+    <div className="container mx-auto px-6 py-10 min-h-screen">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-primary-dark">Dashboard</h1>
+      </div>
 
-      <div className="grid grid-cols-3 gap-6">
-        <div className="bg-white p-6 shadow rounded">
-          <p className="text-gray-500">Active Campaigns</p>
-          <h2 className="text-3xl font-bold">{stats.activeCampaigns}</h2>
-        </div>
-
-        <div className="bg-white p-6 shadow rounded">
-          <p className="text-gray-500">Total Impressions</p>
-          <h2 className="text-3xl font-bold">{stats.totalImpressions}</h2>
-        </div>
-
-        <div className="bg-white p-6 shadow rounded">
-          <p className="text-gray-500">Top Advertiser</p>
-          <h2 className="text-3xl font-bold">{stats.topAdvertiser}</h2>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {cards(stats).map(({ label, value }) => (
+          <div
+            key={label}
+            className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 hover:shadow-md transition-shadow"
+          >
+            <p className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-2">
+              {label}
+            </p>
+            <h2 className="text-3xl font-bold text-primary-dark">{value}</h2>
+          </div>
+        ))}
       </div>
     </div>
   );
