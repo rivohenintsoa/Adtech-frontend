@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AdTech Frontend
 
-## Getting Started
+> Interface web pour la gestion et diffusion de campagnes publicitaires.  
+> Frontend développé avec **Next.js**, **Tailwind CSS**, **Axios** et **Zod** pour la validation.
 
-First, run the development server:
+---
+
+## Technologies utilisées
+
+| Technologie | Rôle |
+|---|---|
+| Next.js | Framework React pour le frontend |
+| React | UI & composants |
+| Tailwind CSS | Styles & design responsive |
+| Axios | Communication avec l'API backend |
+| Zod | Validation des formulaires |
+| TypeScript | Typage et sécurité du code |
+
+---
+
+## Installation et lancement
+
+### 1. Cloner le projet
+
+```bash
+git clone 
+cd adtech-frontend
+```
+
+### 2. Installer les dépendances
+
+```bash
+npm install
+```
+
+### 3. Configurer l'API
+
+Créer un fichier `.env.local` à la racine :
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+> Cette variable pointe vers le backend NestJS.
+
+### 4. Lancer le serveur de développement
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Le frontend sera disponible sur : **`http://localhost:3001`** (ou port par défaut Next.js)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure du projet
 
-## Learn More
+```
+  /components       # Composants réutilisables (Navbar, DashboardCard...)
+  /campaigns        # Page liste des campagnes
+  /campaigns/create # Page création de campagne
+  /app              # Page stats & dashboard
+  /services         # Appels API via Axios
+  /schemas          # Validation Zod
+  /types            # Types TypeScript partagés
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Fonctionnalités
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Liste des campagnes
+- Affiche : nom, annonceur, statut, impressions, budget
+- Récupération depuis `GET /campaigns`
 
-## Deploy on Vercel
+### Création d'une campagne
+- Formulaire avec validation via **Zod**
+- Envoi des données avec `POST /campaigns`
+- Redirection vers la liste en cas de succès
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Dashboard
+- Affiche : campagnes totales, campagnes actives, impressions totales, top advertiser
+- Récupération via `GET /stats`
+- Composant client avec `useEffect` (CSR)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Améliorations possibles
+
+1. Pagination et recherche sur la liste des campagnes
+2. Gestion des erreurs globales avec un toast ou modal
+3. Authentification et rôle admin pour sécuriser certaines pages
+4. Optimisation SSR/ISR pour le dashboard et les stats
+5. Tests unitaires avec React Testing Library
+6. Animations et transitions UI plus fluides

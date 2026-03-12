@@ -1,9 +1,7 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { getCampaigns } from "@/services/api";
 import { Campaign } from "@/types/campaign";
-import MainLayout from "@/components/MainLayout";
 
 export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -15,19 +13,24 @@ export default function CampaignsPage() {
       setCampaigns(data);
       setLoading(false);
     };
-
     fetchCampaigns();
   }, []);
 
-  if (loading) return <p className="p-10">Loading...</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-400 text-sm animate-pulse">Loading...</p>
+      </div>
+    );
 
   return (
-    <MainLayout>
-      <div className="p-10 min-h-screen">
-        <h1 className="text-2xl font-bold text-primary mb-6">Campaigns</h1>
-        <table className="table-auto w-full">
-          <thead className="bg-primary text-white">
-            <tr className="[&>th]:p-3 [&>th]:text-left">
+    <div className="container mx-auto px-6 py-10 min-h-screen">
+      <h1 className="text-2xl font-bold text-primary-dark mb-6">Campaigns</h1>
+
+      <div className="rounded-xl border border-gray-200 overflow-hidden">
+        <table className="table-auto w-full text-sm">
+          <thead>
+            <tr className="bg-primary text-white [&>th]:px-4 [&>th]:py-3 [&>th]:text-left [&>th]:font-medium">
               <th>Name</th>
               <th>Advertiser</th>
               <th>Status</th>
@@ -37,17 +40,17 @@ export default function CampaignsPage() {
           </thead>
           <tbody>
             {campaigns.map((c) => (
-              <tr key={c._id} className="border-t [&>td]:p-3 [&>td]:text-left">
-                <td>{c.name}</td>
+              <tr key={c._id} className="border-t border-gray-100 hover:bg-gray-50 [&>td]:px-4 [&>td]:py-3 [&>td]:text-gray-600">
+                <td className="font-medium text-gray-800">{c.name}</td>
                 <td>{c.advertiser}</td>
                 <td>{c.status}</td>
                 <td>{c.impressionsServed}</td>
-                <td>{c.budget}</td>
+                <td>${c.budget}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </MainLayout>
+    </div>
   );
 }
