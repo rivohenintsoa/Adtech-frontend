@@ -45,7 +45,7 @@ export default function CampaignsPage() {
                 <td>{c.advertiser}</td>
                 <td>{c.status}</td>
                 <td>{c.impressionsServed}</td>
-                <td>${c.budget}</td>
+                <td>{c.budget}</td>
               </tr>
             ))}
           </tbody>
